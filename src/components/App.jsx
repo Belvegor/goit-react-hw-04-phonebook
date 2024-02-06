@@ -1,6 +1,6 @@
 
 import styles from './form.module.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
@@ -9,6 +9,15 @@ const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
+  useEffect(() => {
+    const storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    setContacts(storedContacts);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+ 
   const handleAddContact = (contact) => {
     setContacts((prevContacts) => [...prevContacts, contact]);
   };
