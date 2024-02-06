@@ -1,34 +1,26 @@
 
 import styles from './form.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import useLocalStorage from './useLocalStorage';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    const storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
-    setContacts(storedContacts);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
- 
   const handleAddContact = (contact) => {
     setContacts((prevContacts) => [...prevContacts, contact]);
   };
 
   const handleDeleteContact = (id) => {
-    setContacts((prevContacts) => prevContacts.filter((contact) => contact.id !== id));
-  };
+    setContacts((prevContacts) => prevContacts.filter((contact) => contact.id !==id));
+    };
 
-  const handleFilterChange = (filterValue) => {
-    setFilter(filterValue);
-  };
+    const handleFilterChange = (filterValue) => {
+      setFilter(filterValue);
+    };
 
   return (
     <div className={styles.wrap}>
